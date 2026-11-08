@@ -61,7 +61,7 @@ export async function uploadArtwork({ file, title, description = "", category = 
 
 export async function fetchArtworks({ category = "All", search = "" } = {}) {
   let query = supabase.from("artworks")
-    .select("id,title,description,image_url,category,technique,created_at,user_id,profiles(username,display_name,avatar_url),likes(count)")
+    .select("id,title,description,image_url,category,technique,created_at,user_id,profiles!artworks_user_id_fkey(username,display_name,avatar_url),likes(count)")
     .order("created_at", { ascending: false });
   if (category !== "All") query = query.eq("category", category);
   if (search.trim()) query = query.ilike("title", `%${search.trim()}%`);
